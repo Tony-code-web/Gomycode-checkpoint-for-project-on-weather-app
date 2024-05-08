@@ -1,24 +1,36 @@
 window.addEventListener("load", () => {
-    
-    const city = "kitengela"; // my city
-  
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  
+  let city = "kitengela"; // my city
+
+
+  const getWeatherData = () => {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         const location = data.name;
         const temperature = data.main.temp;
         const description = data.weather[0].description;
-  
-        document.getElementById("location").innerText = `Location: ${location}`;
+
+        document.getElementById("location").textContent = `Location: ${location}`;
         document.getElementById(
           "temperature"
-        ).innerText = `Temperature: ${temperature}°C`;
+        ).textContent = `Temperature: ${temperature}°C`;
         document.getElementById(
           "description"
-        ).innerText = `Description: ${description}`;
+        ).textContent = `Description: ${description}`;
       })
       .catch((error) => console.log("Error fetching weather data:", error));
+  };
+  getWeatherData();
+  const inputField = document.getElementById("city");
+  inputField.addEventListener("keyup", (e) => {
+    if (e.key === "Enter" && e.target.value) {
+      city = e.target.value;
+      // inputField.value = "";
+      console.log({ city });
+      getWeatherData();
+    }
+    // console.log(e.key)
   });
-  
+});
